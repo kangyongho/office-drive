@@ -1,0 +1,80 @@
+insert into user(email, enabled, user_name, password) values('daniel@gmail.com', 1, 'daniel', '$2a$10$RbQFJCJP3vIOrQ5NE7V7CeT7Az7JJk9dJCWsxLibVlJurSzRfeaRG');
+insert into user(email, enabled, user_name, password) values('mark@gmail.com', 1, 'mark', '$2a$10$okNZZLdaldzdOL64KWUvsu9maDfX75xD.eizHnbkJ3qBq3usQDzdi');
+insert into user(email, enabled, user_name, password) values('ted@gmail.com', 1, 'ted', '$2a$10$Kw.QJa1ju9zGnEru9lNI4O1d6/Nz.AGSElAqUKubIVefOFKa1qtLC');
+insert into user(email, enabled, user_name, password) values('angela@gmail.com', 1, 'angela', '$2a$10$YFHOI2rUqHUSLyUuwDNS1uYiGHLFKgbrihI.Nlpd3ZY.pv3/9zHNy');
+insert into user(email, enabled, user_name, password) values('soy@gmail.com', 1, 'soy', '$2a$10$YFHOI2rUqHUSLyUuwDNS1uYiGHLFKgbrihI.Nlpd3ZY.pv3/9zHNy');
+insert into user(email, enabled, user_name, password) values('tom@gmail.com', 1, 'tom', '$2a$10$YFHOI2rUqHUSLyUuwDNS1uYiGHLFKgbrihI.Nlpd3ZY.pv3/9zHNy');
+
+insert into authorities(authority, email, username, user_id) values('ROLE_ADMIN', 'daniel@gmail.com', 'daniel', 1);
+insert into authorities(authority, email, username, user_id) values('ROLE_STAFF', 'mark@gmail.com', 'mark', 2);
+insert into authorities(authority, email, username, user_id) values('ROLE_USER', 'ted@gmail.com', 'ted', 3);
+insert into authorities(authority, email, username, user_id) values('ROLE_GUEST', 'angela@gmail.com', 'angela', 4);
+insert into authorities(authority, email, username, user_id) values('ROLE_GUEST', 'soy@gmail.com', 'soy', 5);
+insert into authorities(authority, email, username, user_id) values('ROLE_GUEST', 'tom@gmail.com', 'tom', 6);
+
+insert into inbox(date, message, receiver, sender, title) values('2017-06-12 15:26:18', 'Did you have lunch?', 'daniel', 'mark', 'Hello Daniel');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-13 15:26:18', 'Love means never having to say you''re sorry.', 'daniel', 'mark', 'Love Story, 1970');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-14 15:26:18', 'They may take our lives, but they''ll never take our freedom!', 'daniel', 'mark', 'Braveheart, 1995');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-15 15:26:18', 'They call me Mister Tibbs!', 'daniel', 'mark', 'In the Heat of the Night, 1967');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-16 15:26:18', 'When you realize you want to spend the rest of your life with somebody, you want the rest of your life to start as soon as possible.', 'daniel', 'mark', 'When Harry Met Sally, 1989');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-17 15:26:18', 'If you let my daughter go now, that''ll be the end of it. I will not look for you, I will not pursue you. But if you don''t, I will look for you, I will find you, and I will kill you.', 'daniel', 'mark', 'Taken, 2008');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-18 15:26:18', 'You complete me.', 'daniel', 'mark', 'Jerry Maguire, 1996');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-19 15:26:18', 'My name is Maximus Decimus Meridius, commander of the Armies of the North, General of the Felix Legions and loyal servant to the true emperor, Marcus Aurelius. Father to a murdered son, husband to a murdered wife. And I will have my vengeance, in this life or the next.', 'daniel', 'mark', 'Gladiator, 2000');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-20 15:26:18', 'I drink your milkshake!', 'daniel', 'mark', 'There Will Be Blood, 2007');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-21 15:26:18', 'Get your stinking paws off me, you damned dirty ape!', 'daniel', 'mark', 'Planet of the Apes, 1968');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-22 15:26:18', 'You make me want to be a better man.', 'daniel', 'mark', 'As Good as It Gets, 1997');
+
+insert into inbox(date, message, receiver, sender, title) values('2017-06-23 15:26:18', 'Did you have lunch?', 'mark', 'daniel', 'Hello Mark');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-24 15:26:18', 'As if!', 'mark', 'daniel', 'Clueless, 1995');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-25 15:26:18', 'Chewie, we''re home.', 'mark', 'daniel', 'Star Wars Episode VII: The Force Awakens, 2015');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-26 15:26:18', 'Forget it, Jake. It''s Chinatown.', 'mark', 'daniel', 'Chinatown, 1974');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-27 15:26:18', 'These go to eleven.', 'mark', 'daniel', 'This Is Spinal Tap, 1984');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-28 15:26:18', 'I''m walking here! I''m walking here!', 'mark', 'daniel', 'Midnight Cowboy, 1969');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-29 15:26:18', 'It was Beauty killed the Beast.', 'mark', 'daniel', 'King Kong, 1933');
+insert into inbox(date, message, receiver, sender, title) values('2017-06-30 15:26:18', 'Badges? We ain''t got no badges! We don''t need no badges! I don''t have to show you any stinking badges!', 'mark', 'daniel', 'The Treasure of the Sierra Madre, 1948');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-01 15:26:18', 'I''m just one stomach flu away from my goal weight.', 'mark', 'daniel', 'The Devil Wears Prada, 2006');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-02 15:26:18', 'They call it a Royale with cheese.', 'mark', 'daniel', 'Pulp Fiction, 1994');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-03 15:26:18', 'They''re here!', 'mark', 'daniel', 'Poltergeist, 1982');
+
+insert into inbox(date, message, receiver, sender, title) values('2017-07-04 15:26:18', 'Did you have lunch?', 'ted', 'angela', 'Hello Ted');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-05 15:26:18', 'Magic Mirror on the wall, who is the fairest one of all?', 'ted', 'angela', 'Snow White and the Seven Dwarves, 1937');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-06 15:26:18', 'Just when I thought I was out, they pull me back in.', 'ted', 'angela', 'The Godfather: Part III, 1990');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-07 15:26:18', 'Nobody''s perfect.', 'ted', 'angela', 'Some Like It Hot, 1959');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-08 15:26:18', 'Yo, Adrian!', 'ted', 'angela', 'Rocky, 1976');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-09 15:26:18', 'Wax on, wax off.', 'ted', 'angela', 'The Karate Kid, 1984');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-10 15:26:18', 'You ain''t heard nothin'' yet!', 'ted', 'angela', 'The Jazz Singer, 1927');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-11 15:26:18', 'Gentlemen, you can''t fight in here! This is the war room!', 'ted', 'angela', 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb, 1964');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-12 15:26:18', 'Mama says, ''Stupid is as stupid does.''', 'ted', 'angela', 'Forrest Gump, 1994');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-13 15:26:18', 'Here''s looking at you, kid.', 'ted', 'angela', 'Casablanca, 1942');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-14 15:26:18', 'You''re gonna need a bigger boat.', 'ted', 'angela', 'Jaws, 1975');
+
+insert into inbox(date, message, receiver, sender, title) values('2017-07-15 15:26:18', 'Did you have lunch?', 'angela', 'ted', 'Hello Angela');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-16 15:26:18', 'I don''t want to survive. I want to live.', 'angela', 'ted', '12 Years a Slave, 2013');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-17 15:26:18', 'Elementary, my dear Watson.', 'angela', 'ted', 'The Adventures of Sherlock Holmes, 1939');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-18 15:26:18', 'That''ll do, pig. That''ll do.', 'angela', 'ted', 'Babe, 1995');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-19 15:26:18', 'I wish I knew how to quit you.', 'angela', 'ted', 'Brokeback Mountain, 2005');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-20 15:26:18', 'Good morning, Vietnam!', 'angela', 'ted', 'Good Morning, Vietnam, 1987');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-21 15:26:18', 'My precious.', 'angela', 'ted', 'The Lord of the Rings: The Two Towers, 2002');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-22 15:26:18', 'I''m the king of the world!', 'angela', 'ted', 'Titanic, 1997');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-23 15:26:18', 'It''s alive! It''s alive!', 'angela', 'ted', 'Frankenstein, 1931');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-24 15:26:18', 'I have always depended on the kindness of strangers.', 'angela', 'ted', 'A Streetcar Named Desire, 1951');
+
+insert into inbox(date, message, receiver, sender, title) values('2017-07-25 15:26:18', 'Did you have lunch?', 'soy', 'tom', 'Hello Soy');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-26 15:26:18', 'Go ahead, make my day.', 'soy', 'tom', 'Sudden Impact, 1983');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-27 15:26:18', 'I mean, funny like I''m a clown? I amuse you?', 'soy', 'tom', 'Goodfellas, 1990');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-28 15:26:18', 'Help me, Obi-Wan Kenobi. You''re my only hope.', 'soy', 'tom', 'Star Wars, 1977');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-29 15:26:18', 'You know how to whistle, don''t you, Steve? You just put your lips together and blow.', 'soy', 'tom', 'To Have and Have Not, 1944');
+insert into inbox(date, message, receiver, sender, title) values('2017-07-30 15:26:18', 'You is kind. You is smart. You is important.', 'soy', 'tom', 'The Help, 2011');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-01 15:26:18', 'After all, tomorrow is another day!', 'soy', 'tom', 'Gone With the Wind, 1939');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-02 15:26:18', 'Stella! Hey, Stella!', 'soy', 'tom', 'A Streetcar Named Desire, 1951');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-03 15:26:18', 'Pay no attention to that man behind the curtain!', 'soy', 'tom', 'The Wizard of Oz, 1939');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-04 15:26:18', 'I''m also just a girl, standing in front of a boy, asking him to love her.', 'soy', 'tom', 'Notting Hill, 1999');
+
+insert into inbox(date, message, receiver, sender, title) values('2017-08-05 15:26:18', 'Did you have lunch?', 'tom', 'angela', 'Hello Tom');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-06 15:26:18', 'The Dude abides.', 'tom', 'angela', 'The Big Lebowski, 1998');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-07 15:26:18', 'Hasta la vista, baby.', 'tom', 'angela', 'Terminator 2: Judgment Day, 1991');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-08 15:26:18', 'I''ll get you, my pretty, and your little dog, too!', 'tom', 'angela', 'The Wizard of Oz, 1939');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-09 15:26:18', 'Play it, Sam. Play ''As Time Goes By.''', 'tom', 'angela', 'Casablanca, 1942');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-10 15:26:18', 'I''m having an old friend for dinner.', 'tom', 'angela', 'The Silence of the Lambs, 1991');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-11 15:26:18', 'I''m not bad. I''m just drawn that way.', 'tom', 'angela', 'Who Framed Roger Rabbit, 1988');
+insert into inbox(date, message, receiver, sender, title) values('2017-08-11 15:26:18', 'Frankly, my dear, I don''t give a damn.', 'tom', 'angela', 'Gone With the Wind, 1939');

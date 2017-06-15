@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="global-template :: head"></header>
+<body>
+<nav th:replace="global-template :: navbar"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="global-template :: sidebar" class="col-sm-3 col-md-2 sidebar"></div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">메시지 보내기</h1>
+
+            <div class="placeholders">
+                <form class="form-group" th:action="@{/inbox/send}" th:object="${inbox}" method="post">
+                    <div class="col-xs-6 col-sm-3">
+                        <select th:field="*{receiver}" class="form-control">
+                            <option th:if="${name} != daniel" value="daniel">daniel</option>
+                            <option th:if="${name} != mark" value="mark">mark</option>
+                            <option th:if="${name} != ted" value="ted">ted</option>
+                            <option th:if="${name} != angela" value="angela">angela</option>
+                            <option th:if="${name} != soy" value="soy">soy</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-9">
+                        <input class="form-control" th:field="*{title}" type="text" placeholder="Title" />
+                    </div>
+                    <div class="text-left">
+                        <textarea class="form-control" th:field="*{message}" rows="3" placeholder="Send Message"></textarea>
+                    </div>
+                    <div class="text-left">
+                        <button class="btn btn-lg btn-primary" type="submit">Send</button>
+                    </div>
+                </form>
+            </div>
+
+            <h2 class="sub-header">보낸 메시지</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>받은친구</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>보낸날짜</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="inbox : ${inboxList}">
+                        <td th:text="${inbox.id}">id</td>
+                        <td th:text="${inbox.receiver}">받은친구</td>
+                        <td th:text="${inbox.title}">제목</td>
+                        <td th:text="${inbox.message}">내용</td>
+                        <td th:text="${inbox.date}">보낸날짜</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation" class="text-center">
+                <ul class="pagination">
+                    <li th:if="${startPage} ge 2">
+                        <a th:href="@{/inbox/{nextPage}(nextPage=${startPage}-1)}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="page : ${#numbers.sequence(0, 4)}">
+                        <a th:text="${startPage}+${page}" th:href="@{/inbox/{startPage}(startPage=${startPage}+${page})}"></a>
+                    </li>
+                    <li>
+                        <a th:href="@{/inbox/{nextPage}(nextPage=${startPage}+5)}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!--<footer th:replace="global-template :: footer"></footer>-->
+<footer th:replace="global-template :: footer-script"></footer>
+</body>
+</html>

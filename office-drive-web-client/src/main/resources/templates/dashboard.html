@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="global-template :: head"></header>
+<body>
+<nav th:replace="global-template :: navbar"></nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="global-template :: sidebar" class="col-sm-3 col-md-2 sidebar"></div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Dashboard</h1>
+
+            <div class="row placeholders">
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail" />
+                    <h4>Label</h4>
+                    <span class="text-muted">Something else</span>
+                </div>
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail" />
+                    <h4>Label</h4>
+                    <span class="text-muted">Something else</span>
+                </div>
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail" />
+                    <h4>Label</h4>
+                    <span class="text-muted">Something else</span>
+                </div>
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail" />
+                    <h4>Label</h4>
+                    <span class="text-muted">Something else</span>
+                </div>
+            </div>
+
+            <h2 class="sub-header">받은 메시지</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>보낸친구</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>받은날짜</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="inbox : ${inboxList}">
+                        <td th:text="${inbox.id}">id</td>
+                        <td th:text="${inbox.sender}">보낸친구</td>
+                        <td th:text="${inbox.title}">제목</td>
+                        <td th:text="${inbox.message}">내용</td>
+                        <td th:text="${inbox.date}">받은날짜</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation" class="text-center">
+                <ul class="pagination">
+                    <li th:if="${startPage} ge 2">
+                        <a th:href="@{/dashboard/{nextPage}(nextPage=${startPage}-1)}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="page : ${#numbers.sequence(0, 4)}">
+                        <a th:text="${startPage}+${page}" th:href="@{/dashboard/{startPage}(startPage=${startPage}+${page})}"></a>
+                    </li>
+                    <li>
+                        <a th:href="@{/dashboard/{nextPage}(nextPage=${startPage}+5)}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!--<footer th:replace="global-template :: footer"></footer>-->
+<footer th:replace="global-template :: footer-script"></footer>
+</body>
+</html>
