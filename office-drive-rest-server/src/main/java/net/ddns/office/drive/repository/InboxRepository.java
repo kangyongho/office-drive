@@ -59,6 +59,23 @@ public class InboxRepository {
         return map;
     }
 
+    public Map<String, Object> getReceivedMessageRestAPI(Integer setpage, String user) {
+        //Pagination
+        Pagination pagination = new Pagination(getTotalListCount(), 5, 5, setpage);
+
+        //DB 조회
+        List<Inbox> inboxList = em.createQuery("SELECT i FROM Inbox i WHERE i.receiver=:receiver ORDER BY id DESC", Inbox.class)
+                .setParameter("receiver", user)
+                .setFirstResult((pagination.getPage() - 1) * pagination.getCountList())
+                .setMaxResults(pagination.getCountList())
+                .getResultList();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", inboxList);
+        map.put("startPage", pagination.getStartPage());
+        return map;
+    }
+
     public Map<String, Object> getSentMessage(Integer setpage, User user) {
         //Pagination
         Pagination pagination = new Pagination(getTotalListCount(), 5, 5, setpage);
@@ -75,6 +92,4 @@ public class InboxRepository {
         map.put("startPage", pagination.getStartPage());
         return map;
     }
-
-
 }

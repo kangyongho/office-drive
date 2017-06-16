@@ -24,11 +24,11 @@ public class InboxService {
         return inboxRepository.getListAll();
     }
 
-    public Map<String, ?> getReceivedMessage(Integer setpage, User user) {
+    public Map<String, Object> getReceivedMessage(Integer setpage, User user) {
         return inboxRepository.getReceivedMessage(setpage, user);
     }
 
-    public Map<String, ?> getSentMessage(Integer setpage, User user) {
+    public Map<String, Object> getSentMessage(Integer setpage, User user) {
         return inboxRepository.getSentMessage(setpage, user);
     }
 

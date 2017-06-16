@@ -4,6 +4,7 @@ insert into user(email, enabled, user_name, password) values('ted@gmail.com', 1,
 insert into user(email, enabled, user_name, password) values('angela@gmail.com', 1, 'angela', '$2a$10$YFHOI2rUqHUSLyUuwDNS1uYiGHLFKgbrihI.Nlpd3ZY.pv3/9zHNy');
 insert into user(email, enabled, user_name, password) values('soy@gmail.com', 1, 'soy', '$2a$10$YFHOI2rUqHUSLyUuwDNS1uYiGHLFKgbrihI.Nlpd3ZY.pv3/9zHNy');
 insert into user(email, enabled, user_name, password) values('tom@gmail.com', 1, 'tom', '$2a$10$YFHOI2rUqHUSLyUuwDNS1uYiGHLFKgbrihI.Nlpd3ZY.pv3/9zHNy');
+insert into user(email, enabled, user_name, password) values('restuser@gmail.com', 1, 'restuser', '$2a$10$YFHOI2rUqHUSLyUuwDNS1uYiGHLFKgbrihI.Nlpd3ZY.pv3/9zHNy');
 
 insert into authorities(authority, email, username, user_id) values('ROLE_ADMIN', 'daniel@gmail.com', 'daniel', 1);
 insert into authorities(authority, email, username, user_id) values('ROLE_STAFF', 'mark@gmail.com', 'mark', 2);
@@ -11,6 +12,7 @@ insert into authorities(authority, email, username, user_id) values('ROLE_USER',
 insert into authorities(authority, email, username, user_id) values('ROLE_GUEST', 'angela@gmail.com', 'angela', 4);
 insert into authorities(authority, email, username, user_id) values('ROLE_GUEST', 'soy@gmail.com', 'soy', 5);
 insert into authorities(authority, email, username, user_id) values('ROLE_GUEST', 'tom@gmail.com', 'tom', 6);
+insert into authorities(authority, email, username, user_id) values('ROLE_GUEST', 'restuser@gmail.com', 'tom', 6);
 
 insert into inbox(date, message, receiver, sender, title) values('2017-06-12 15:26:18', 'Did you have lunch?', 'daniel', 'mark', 'Hello Daniel');
 insert into inbox(date, message, receiver, sender, title) values('2017-06-13 15:26:18', 'Love means never having to say you''re sorry.', 'daniel', 'mark', 'Love Story, 1970');

@@ -2,6 +2,7 @@ package office.drive.web.clinet.controller;
 
 import office.drive.web.clinet.domain.User;
 import office.drive.web.clinet.security.CurrentUser;
+import office.drive.web.clinet.config.AuthRestTemplate;
 import office.drive.web.clinet.service.InboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,47 +21,42 @@ import java.util.Map;
 @Controller
 public class MainController {
 
-    @Autowired
-    InboxService inboxService;
+    @Autowired InboxService inboxService;
+    @Autowired AuthRestTemplate authRestTemplate;
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String dashboard(@AuthenticationPrincipal Authentication auth, @CurrentUser User user, Model model) {
         boolean isAuthenticated = auth.isAuthenticated();
         String name = user.getName();
-//        List<Inbox> inboxList = inboxService.getListAll();
 
-        Map<String, ?> inboxList = inboxService.getReceivedMessage(1, user);
+        //Rest API authentication call
+        Map map = authRestTemplate.getDashboard(name);
 
         model.addAttribute("isAuthenticated", isAuthenticated);
         model.addAttribute("name", name);
-//        model.addAttribute("inboxList", inboxList);
 
-        model.addAttribute("inboxList", inboxList.get("list"));
-//        model.addAttribute("startPage", inboxList.get("startPage"));
-        model.addAttribute("startPage", 1);
+        model.addAttribute("inboxList", map.get("inboxList"));
+        model.addAttribute("startPage", map.get("startPage"));
+
         return "dashboard";
     }
+
 
     @RequestMapping(value = "/dashboard/{setpage}", method = RequestMethod.GET)
     public String dashboardPaging(@PathVariable("setpage") Integer setpage, @AuthenticationPrincipal Authentication auth, @CurrentUser User user, Model model) {
         boolean isAuthenticated = auth.isAuthenticated();
         String name = user.getName();
-//        List<Inbox> inboxList = inboxService.getListAll();
 
-        Map<String, ?> inboxList = inboxService.getReceivedMessage(setpage, user);
+        //Rest API authentication call
+        Map map = authRestTemplate.getDashboard(name, setpage);
 
         model.addAttribute("isAuthenticated", isAuthenticated);
         model.addAttribute("name", name);
-//        model.addAttribute("inboxList", inboxList);
 
-        model.addAttribute("inboxList", inboxList.get("list"));
-        model.addAttribute("startPage", inboxList.get("startPage"));
+        model.addAttribute("inboxList", map.get("inboxList"));
+        model.addAttribute("startPage", map.get("startPage"));
+
         return "dashboard";
     }
 
-
-    @RequestMapping(value = "/dexample", method = RequestMethod.GET)
-    public String dashboardexample(Model model) {
-        return "example/dashboard-example";
-    }
 }

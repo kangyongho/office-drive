@@ -6,56 +6,41 @@ import net.ddns.office.drive.service.InboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by NPOST on 2017-06-11.
  */
-@Controller
+@RestController
 public class MainController {
 
     @Autowired
     InboxService inboxService;
 
-    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public String dashboard(@AuthenticationPrincipal Authentication auth, @CurrentUser User user, Model model) {
-        boolean isAuthenticated = auth.isAuthenticated();
-        String name = user.getName();
-//        List<Inbox> inboxList = inboxService.getListAll();
+    @RequestMapping(value = "/dashboard/{username}", method = RequestMethod.GET)
+    public Map<String, Object> dashboard(@PathVariable("username") String username, Model model) {
+        Map<String, Object> inboxList = inboxService.getReceivedMessageRestAPI(1, username);
 
-        Map<String, ?> inboxList = inboxService.getReceivedMessage(1, user);
+        Map<String, Object> dashboard = new HashMap<>();
+        dashboard.put("inboxList", inboxList.get("list"));
+        dashboard.put("startPage", 1);
 
-        model.addAttribute("isAuthenticated", isAuthenticated);
-        model.addAttribute("name", name);
-//        model.addAttribute("inboxList", inboxList);
-
-        model.addAttribute("inboxList", inboxList.get("list"));
-//        model.addAttribute("startPage", inboxList.get("startPage"));
-        model.addAttribute("startPage", 1);
-        return "dashboard";
+        return dashboard;
     }
 
-    @RequestMapping(value = "/dashboard/{setpage}", method = RequestMethod.GET)
-    public String dashboardPaging(@PathVariable("setpage") Integer setpage, @AuthenticationPrincipal Authentication auth, @CurrentUser User user, Model model) {
-        boolean isAuthenticated = auth.isAuthenticated();
-        String name = user.getName();
-//        List<Inbox> inboxList = inboxService.getListAll();
+    @RequestMapping(value = "/dashboard/{username}/{setpage}", method = RequestMethod.GET)
+    public Map<String, Object> dashboardPaging(@PathVariable("setpage") Integer setpage, @PathVariable("username") String username, Model model) {
+        Map<String, Object> inboxList = inboxService.getReceivedMessageRestAPI(setpage, username);
 
-        Map<String, ?> inboxList = inboxService.getReceivedMessage(setpage, user);
+        Map<String, Object> dashboard = new HashMap<>();
+        dashboard.put("inboxList", inboxList.get("list"));
+        dashboard.put("startPage", inboxList.get("startPage"));
 
-        model.addAttribute("isAuthenticated", isAuthenticated);
-        model.addAttribute("name", name);
-//        model.addAttribute("inboxList", inboxList);
-
-        model.addAttribute("inboxList", inboxList.get("list"));
-        model.addAttribute("startPage", inboxList.get("startPage"));
-        return "dashboard";
+        return dashboard;
     }
 
 

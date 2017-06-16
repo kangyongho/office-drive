@@ -53,19 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/find/user/**").hasRole("USER")      //ADMIN 로그인시 USER 권한도 갖고 있으므로 호출할 수 있다. (RoleHierarchyImpl 구현때문)
                     .anyRequest().authenticated()                      //포괄적인 설정을 나중에 한다.
                     .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .failureUrl("/login-error")
-                    .successForwardUrl("/login-success")
-                    .permitAll()
-                    .and()
-                .httpBasic()
-                    .and()
-                .csrf()
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) //javascript로 post요청을 할 때 csrf token을 넣어준다. 확실하진 않다. <form> post 요청과 다르다.
-                    .and()
-                .headers()
-                    .contentSecurityPolicy("default-src 'self'").reportOnly(); //크로스 도메인 정책, CORS 설정, 외부도메인 로딩 설정
+                .httpBasic();
     }
 
     @SuppressWarnings("SpringJavaAutowiringInspection")

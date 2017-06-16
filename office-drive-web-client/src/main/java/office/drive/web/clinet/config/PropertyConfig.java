@@ -1,10 +1,13 @@
-package office.drive.web.clinet.domain;
+package office.drive.web.clinet.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by NPOST on 2017-06-07.
  */
+//@Component
+@Configuration
 @ConfigurationProperties(prefix = "config")
 public class PropertyConfig {
 
@@ -53,4 +56,5 @@ public class PropertyConfig {
     public void setAccessmessage(String accessmessage) {
         this.accessmessage = accessmessage;
     }
+
 }
