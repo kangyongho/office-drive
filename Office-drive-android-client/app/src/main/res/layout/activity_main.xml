@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="office.drive.android.MainActivity">
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Received Message"
+            android:textSize="20dp"
+            android:textAlignment="center"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go Send Message"
+            android:onClick="sendMessage"/>
+
+        <TextView
+            android:id="@+id/receiveTextview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Received message"
+            android:textColor="#000000"
+            android:padding="5dp"
+            android:textSize="15dp"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

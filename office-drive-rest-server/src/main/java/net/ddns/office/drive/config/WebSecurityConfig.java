@@ -4,6 +4,7 @@ import net.ddns.office.drive.service.UserRepositoryUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,7 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.sql.DataSource;
 
@@ -42,18 +44,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return roleHierarchy;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .antMatcher("/**")
-                .authorizeRequests()
+    @Configuration
+    @Order(1)
+    public static class AndroidConfiguration extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                    .antMatcher("/android/**")
+                    .csrf().disable()
+                    .httpBasic();
+        }
+    }
+
+    @Configuration
+    @Order(2)
+    public static class WebConfiguration extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                    .antMatcher("/**")
+                    .authorizeRequests()
                     .antMatchers("/", "/css/**", "/js/**").permitAll()
                     .antMatchers("/find/admin/**").hasRole("ADMIN")    //Role 별로 접근 권한을 준다.
                     .antMatchers("/find/staff/**").hasRole("STAFF")
                     .antMatchers("/find/user/**").hasRole("USER")      //ADMIN 로그인시 USER 권한도 갖고 있으므로 호출할 수 있다. (RoleHierarchyImpl 구현때문)
                     .anyRequest().authenticated()                      //포괄적인 설정을 나중에 한다.
                     .and()
-                .httpBasic();
+                    .httpBasic();
+        }
     }
 
     @SuppressWarnings("SpringJavaAutowiringInspection")

@@ -1,4 +1,4 @@
-package net.ddns.office.drive.helper;
+package office.drive.android.helper;
 
 import com.rabbitmq.client.*;
 
@@ -6,10 +6,9 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Created by NPOST on 2017-06-14.
- * RabbitMQ Custom Helper class
- * apply new factory, connection
+ * Created by NPOST on 2017-06-17.
  */
+
 public class RabbitMQHelper {
 
     private ConnectionFactory factory;
@@ -106,8 +105,6 @@ public class RabbitMQHelper {
 
     /**
      * only for user as publisher
-     * notice! do not use message.getBytes() method
-     * instead use this, message.getBytes("UTF-8") method
      * @param message
      * @param bindingKey
      * @throws IOException

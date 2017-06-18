@@ -120,7 +120,7 @@ public class InboxController {
         inbox.setReceiver(inboxForm.getReceiver());
         inbox.setSender(user.getName());
         inbox.setDate(LocalDateTime.now());
-        inboxService.insert(inbox);
+//        inboxService.insert(inbox);
 
         System.out.println("TAG: RabbitMQ");
 
@@ -129,7 +129,9 @@ public class InboxController {
         rabbitMQHelper.getChannel("inbox", BuiltinExchangeType.DIRECT);  //변화하는 부분, Exchange name, Type
 
         String message = inboxForm.getMessage();
+
         String bindingKey = "broadcast";
+
         rabbitMQHelper.basicPublish(message, bindingKey);                //변화하는부분, binding key (receiver)
 
         rabbitMQHelper.closeConnection();

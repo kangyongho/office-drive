@@ -106,13 +106,15 @@ public class RabbitMQHelper {
 
     /**
      * only for user as publisher
+     * notice! do not use message.getBytes() method
+     * instead use this, message.getBytes("UTF-8") method
      * @param message
      * @param bindingKey
      * @throws IOException
      */
     public void basicPublish(String message, String bindingKey) throws IOException {
         if (connection.isOpen()) {
-            channel.basicPublish(exchangeName, bindingKey, null, message.getBytes());
+            channel.basicPublish(exchangeName, bindingKey, null, message.getBytes("UTF-8"));
         }
         else {
             throw new IOException();
