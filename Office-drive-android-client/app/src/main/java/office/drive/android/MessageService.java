@@ -22,9 +22,6 @@ import com.rabbitmq.client.Envelope;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeoutException;
 
 import office.drive.android.config.PropertyConfig;
@@ -35,12 +32,14 @@ import office.drive.android.config.PropertyConfig;
 
 public class MessageService extends Service implements Runnable {
 
-    private String RABBITMQ_URI;
-    private String EXCHANGE_NAME;
-    private String BINDING_KEY;
+    private String RABBITMQ_USER;
+    private String RABBITMQ_PASSWORD;
+    private String RABBITMQ_HOST;
+    private String RABBITMQ_VIRTUAL_HOST;
+    private String RABBITMQ_EXCHANGE_NAME;
+    private String RABBITMQ_BINDING_KEY;
 
     Thread thread;
-    boolean isRun = true;
 
     @Nullable
     @Override
@@ -54,9 +53,12 @@ public class MessageService extends Service implements Runnable {
         Log.i(this.getClass().getName(), "MessageService 실행");
 
         //set RabbitMQ properties
-        RABBITMQ_URI = PropertyConfig.getConfigValue(this, "rabbitmq.uri");
-        EXCHANGE_NAME = PropertyConfig.getConfigValue(this, "rabbitmq.exchange");
-        BINDING_KEY = PropertyConfig.getConfigValue(this, "rabbitmq.bindingkey");
+        RABBITMQ_USER = PropertyConfig.getConfigValue(this, "rabbitmq.user");
+        RABBITMQ_PASSWORD = PropertyConfig.getConfigValue(this, "rabbitmq.password");
+        RABBITMQ_HOST = PropertyConfig.getConfigValue(this, "rabbitmq.host");
+        RABBITMQ_VIRTUAL_HOST = PropertyConfig.getConfigValue(this, "rabbitmq.virtualhost");
+        RABBITMQ_EXCHANGE_NAME = PropertyConfig.getConfigValue(this, "rabbitmq.exchange");
+        RABBITMQ_BINDING_KEY = PropertyConfig.getConfigValue(this, "rabbitmq.bindingkey");
 
         thread = new Thread(this);
         thread.start();
@@ -77,14 +79,19 @@ public class MessageService extends Service implements Runnable {
         ConnectionFactory factory = new ConnectionFactory();
 
         try {
-            factory.setUri(RABBITMQ_URI); //local 내부접속
+            factory.setUsername(RABBITMQ_USER);
+            factory.setPassword(RABBITMQ_PASSWORD);
+            factory.setHost(RABBITMQ_HOST);
+            factory.setVirtualHost(RABBITMQ_VIRTUAL_HOST);
+            factory.setPort(5672);  //production 환경에서는 Nginx port forwarding 때문에 생략
+
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
 
-            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
+            channel.exchangeDeclare(RABBITMQ_EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
             String queueName = channel.queueDeclare().getQueue();
 
-            channel.queueBind(queueName, EXCHANGE_NAME, BINDING_KEY);
+            channel.queueBind(queueName, RABBITMQ_EXCHANGE_NAME, RABBITMQ_BINDING_KEY);
 
             Log.i(this.getClass().getName(), "RabbitMQ 연결됨");
 
@@ -101,12 +108,6 @@ public class MessageService extends Service implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TimeoutException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }

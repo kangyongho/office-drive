@@ -1,11 +1,7 @@
 package net.ddns.office.drive.controller;
 
-import net.ddns.office.drive.domain.User;
-import net.ddns.office.drive.security.CurrentUser;
 import net.ddns.office.drive.service.InboxService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,11 +37,5 @@ public class MainController {
         dashboard.put("startPage", inboxList.get("startPage"));
 
         return dashboard;
-    }
-
-
-    @RequestMapping(value = "/dexample", method = RequestMethod.GET)
-    public String dashboardexample(Model model) {
-        return "example/dashboard-example";
     }
 }

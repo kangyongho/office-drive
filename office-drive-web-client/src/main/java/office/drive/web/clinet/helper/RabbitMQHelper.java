@@ -23,11 +23,26 @@ public class RabbitMQHelper {
 
     /**
      * for both user as publisher, consumer
-     * @param host
      */
-    public RabbitMQHelper(String host) {
-        this.factory = new ConnectionFactory();
+    public RabbitMQHelper(String host, String username, String password) {
+        factory = new ConnectionFactory();
+        factory.setUsername(username);
+        factory.setPassword(password);
         factory.setHost(host);
+        factory.setPort(5672);
+        this.host = host;
+    }
+
+    /**
+     * for both user as publisher, consumer
+     */
+    public RabbitMQHelper(String host, String username, String password, String virtualhost) {
+        factory = new ConnectionFactory();
+        factory.setUsername(username);
+        factory.setPassword(password);
+        factory.setHost(host);
+        factory.setVirtualHost(virtualhost);
+        factory.setPort(5672);
         this.host = host;
     }
 

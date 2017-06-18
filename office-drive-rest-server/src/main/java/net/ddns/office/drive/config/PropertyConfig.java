@@ -1,4 +1,4 @@
-package office.drive.web.clinet.config;
+package net.ddns.office.drive.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by NPOST on 2017-06-07.
  */
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "config")
 public class PropertyConfig {
 
@@ -27,5 +27,4 @@ public class PropertyConfig {
     public Map<String, String> getRabbitmq() {
         return rabbitmq;
     }
-
 }

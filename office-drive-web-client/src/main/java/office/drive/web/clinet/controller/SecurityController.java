@@ -60,52 +60,7 @@ public class SecurityController {
     }
 
     @RequestMapping(value = "/login-success", method = RequestMethod.POST)
-    public String dashboard(@AuthenticationPrincipal Authentication auth, @CurrentUser User currentUser, Model model) {
-//        boolean isAuthenticated = auth.isAuthenticated();
-//        String name = currentUser.getName();
-//        List<Inbox> inboxList = inboxService.getListAll();
-//
-//        model.addAttribute("name", name);
-//        model.addAttribute("isAuthenticated", isAuthenticated);
-//        model.addAttribute("inboxList", inboxList);
+    public String dashboard() {
         return "redirect:dashboard";
-    }
-
-    @RequestMapping(value = "/mylogout", method = RequestMethod.GET)
-    public String logout(@AuthenticationPrincipal Authentication auth, Model model) {
-        boolean bool = auth.isAuthenticated();
-        model.addAttribute("isAuthenticated", bool);
-        return "logout";
-    }
-
-    @RequestMapping(value = "/csp", method = RequestMethod.GET)
-    public String logoutSuccess() { return "contentsecuritypolicy"; }
-
-
-
-    @RequestMapping(value = "/find/admin/{name}", method = RequestMethod.GET)
-    @ResponseBody
-    public User findOne(@PathVariable("name") String name) { return userService.findOne(name); }
-
-    @RequestMapping(value = "/find/staff/{name}", method = RequestMethod.GET)
-    @ResponseBody
-    public User findUser(@PathVariable("name") String name) { return userService.findOne(name); }
-
-    @RequestMapping(value = "/find/user/{name}", method = RequestMethod.GET)
-    @ResponseBody
-    public User findUser2(@PathVariable("name") String name) { return userService.findOne(name); }
-
-    @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
-    @ResponseBody
-    public User findByUserName(@PathVariable("name") String name, @CurrentUser User user) { return userService.findByUserName(name); }
-
-
-
-    @GetMapping("/user") @ResponseBody
-    public User defaultInfo(@CurrentUser User currentUser) { return currentUser; }
-
-    @GetMapping("/facebook") @ResponseBody
-    public Principal getPrincipal(Principal principal) {
-        return principal;
     }
 }

@@ -23,21 +23,39 @@ public class RabbitMQHelper {
 
     /**
      * for both user as publisher, consumer
-     * @param host
+     * @param localhost
      */
-    public RabbitMQHelper(String host) {
+    public RabbitMQHelper(String localhost) {
         this.factory = new ConnectionFactory();
+        factory.setHost(localhost);
+        this.host = localhost;
+    }
+
+    public RabbitMQHelper(String host, String username, String password) {
+        factory = new ConnectionFactory();
+        factory.setUsername(username);
+        factory.setPassword(password);
         factory.setHost(host);
+        factory.setPort(5672);
+        this.host = host;
+    }
+
+    public RabbitMQHelper(String host, String username, String password, String virtualhost) {
+        factory = new ConnectionFactory();
+        factory.setUsername(username);
+        factory.setPassword(password);
+        factory.setHost(host);
+        factory.setVirtualHost(virtualhost);
+        factory.setPort(5672);
         this.host = host;
     }
 
     /**
-     * for both user as publisher, consumer
      * @return Connection object
      * @throws IOException
      * @throws TimeoutException
      */
-    public Connection getConnection() throws IOException, TimeoutException {
+    private Connection getConnection() throws IOException, TimeoutException {
         if (this.connection == null) {
             this.connection = factory.newConnection();
             return this.connection;

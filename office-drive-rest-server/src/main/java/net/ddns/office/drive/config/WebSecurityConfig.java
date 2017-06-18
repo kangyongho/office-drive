@@ -15,8 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.sql.DataSource;
 
@@ -25,17 +23,12 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableWebSecurity
-@EnableOAuth2Client
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @SuppressWarnings("SpringJavaAutowiringInspection") //Intellij bug message out
     @Autowired
     private DataSource dataSource;
-
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    OAuth2ClientContext oAuth2ClientContext;
 
     @Bean
     public RoleHierarchyImpl roleHierarchy() {
@@ -64,12 +57,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             http
                     .antMatcher("/**")
                     .authorizeRequests()
-                    .antMatchers("/", "/css/**", "/js/**").permitAll()
-                    .antMatchers("/find/admin/**").hasRole("ADMIN")    //Role 별로 접근 권한을 준다.
-                    .antMatchers("/find/staff/**").hasRole("STAFF")
-                    .antMatchers("/find/user/**").hasRole("USER")      //ADMIN 로그인시 USER 권한도 갖고 있으므로 호출할 수 있다. (RoleHierarchyImpl 구현때문)
-                    .anyRequest().authenticated()                      //포괄적인 설정을 나중에 한다.
-                    .and()
+                        .antMatchers("/", "/css/**", "/js/**").permitAll()
+                        .antMatchers("/find/admin/**").hasRole("ADMIN")    //Role 별로 접근 권한을 준다.
+                        .antMatchers("/find/staff/**").hasRole("STAFF")
+                        .antMatchers("/find/user/**").hasRole("USER")      //ADMIN 로그인시 USER 권한도 갖고 있으므로 호출할 수 있다. (RoleHierarchyImpl 구현때문)
+                        .anyRequest().authenticated()                      //포괄적인 설정을 나중에 한다.
+                        .and()
                     .httpBasic();
         }
     }

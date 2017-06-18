@@ -24,10 +24,10 @@ public class AuthHeaders {
      */
     public static HttpHeaders getHttpRequest(Context context) {
 
-        String restuser = PropertyConfig.getConfigValue(context, "rest.user");
-        String restpassword = PropertyConfig.getConfigValue(context, "rest.password");
+        String restUser = PropertyConfig.getConfigValue(context, "rest.user");
+        String restPassword = PropertyConfig.getConfigValue(context, "rest.password");
 
-        HttpAuthentication authHeader = new HttpBasicAuthentication(restuser, restpassword);
+        HttpAuthentication authHeader = new HttpBasicAuthentication(restUser, restPassword);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));

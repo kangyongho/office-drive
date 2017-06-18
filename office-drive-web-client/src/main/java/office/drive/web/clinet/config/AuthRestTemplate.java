@@ -20,8 +20,8 @@ public class AuthRestTemplate {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public AuthRestTemplate(RestTemplateBuilder builder, PropertyConfig propertySource) {
-        this.restTemplate = builder.basicAuthorization(propertySource.getUser(), propertySource.getPassword()).build();
+    public AuthRestTemplate(RestTemplateBuilder builder, PropertyConfig propertyConfig) {
+        this.restTemplate = builder.basicAuthorization(propertyConfig.getRest().get("username"), propertyConfig.getRest().get("password")).build();
     }
 
     public Map getDashboard(String username) {

@@ -50,10 +50,7 @@ public class SendMessageActivity extends AppCompatActivity implements AdapterVie
 
     private String receiver;
 
-    private String RABBITMQ_URI;
     private String RABBITMQ_REST_URI;
-    private String EXCHANGE_NAME;
-    private String BINDING_KEY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +63,7 @@ public class SendMessageActivity extends AppCompatActivity implements AdapterVie
         showMessage = (TextView) findViewById(R.id.showMessage);
 
         //set RabbitMQ properties
-        RABBITMQ_URI = PropertyConfig.getConfigValue(this, "rabbitmq.uri");
         RABBITMQ_REST_URI = PropertyConfig.getConfigValue(this, "rabbitmq.rest.uri");
-        EXCHANGE_NAME = PropertyConfig.getConfigValue(this, "rabbitmq.exchange");
-        BINDING_KEY = PropertyConfig.getConfigValue(this, "rabbitmq.bindingkey");
 
         //set spinner
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -132,45 +126,6 @@ public class SendMessageActivity extends AppCompatActivity implements AdapterVie
             Log.e("HTTP-Exception", e.getLocalizedMessage(), e);
         } catch (ResourceAccessException e) {
             Log.e("Resource Exception", e.getLocalizedMessage(), e);
-        }
-    }
-
-    /**
-     * Test Method
-     * Java Encoding 문제
-     * message.getBytes("UTF-8")로 사용해야 한다.
-     * Android Java 에서도 이 형태로 사용하자.
-     */
-    public void sendRabbitMQSelf() {
-        //메시지 객체 생성
-        String messages = message.getText().toString();
-
-        ConnectionFactory factory = new ConnectionFactory();
-
-        try {
-            factory.setUri(RABBITMQ_URI);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        }
-        Connection connection = null;
-        try {
-            connection = factory.newConnection();
-            Channel channel = connection.createChannel();
-
-            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
-
-            channel.basicPublish(EXCHANGE_NAME, BINDING_KEY, null, messages.getBytes("UTF-8"));
-
-            channel.close();
-            connection.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            e.printStackTrace();
         }
     }
 }

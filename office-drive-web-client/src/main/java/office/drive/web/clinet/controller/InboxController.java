@@ -1,6 +1,7 @@
 package office.drive.web.clinet.controller;
 
 import com.rabbitmq.client.BuiltinExchangeType;
+import office.drive.web.clinet.config.PropertyConfig;
 import office.drive.web.clinet.domain.Inbox;
 import office.drive.web.clinet.domain.User;
 import office.drive.web.clinet.helper.RabbitMQHelper;
@@ -24,8 +25,8 @@ import java.util.concurrent.TimeoutException;
 @Controller
 public class InboxController {
 
-    @Autowired
-    private InboxService inboxService;
+    @Autowired private InboxService inboxService;
+    @Autowired private PropertyConfig propertyConfig;
 
     @RequestMapping(value = "/inbox", method = RequestMethod.GET)
     public String inbox(@AuthenticationPrincipal Authentication auth, @CurrentUser User user, Model model) {
@@ -112,27 +113,19 @@ public class InboxController {
     }
 
     @PostMapping(value = "/rabbitmq/send")
-    public String sendMessageWithRabbitMQ(@ModelAttribute Inbox inboxForm, @CurrentUser User user) throws IOException, TimeoutException {
-        //메시지 DB 저장
-        Inbox inbox = new Inbox();
-        inbox.setMessage(inboxForm.getMessage());
-        inbox.setTitle(inboxForm.getTitle());
-        inbox.setReceiver(inboxForm.getReceiver());
-        inbox.setSender(user.getName());
-        inbox.setDate(LocalDateTime.now());
-//        inboxService.insert(inbox);
-
-        System.out.println("TAG: RabbitMQ");
-
+    public String sendMessageWithRabbitMQ(@ModelAttribute Inbox inboxForm) throws IOException, TimeoutException {
         //RabbitMQ AMQP로 안드로이드에게 PUSH 메시지 전송
-        RabbitMQHelper rabbitMQHelper = new RabbitMQHelper("localhost"); //host 로 객체생성
-        rabbitMQHelper.getChannel("inbox", BuiltinExchangeType.DIRECT);  //변화하는 부분, Exchange name, Type
+        RabbitMQHelper rabbitMQHelper = new RabbitMQHelper(
+                propertyConfig.getRabbitmq().get("host"),
+                propertyConfig.getRabbitmq().get("username"),
+                propertyConfig.getRabbitmq().get("password"),
+                "pushService");  //helper object 생성
+
+        rabbitMQHelper.getChannel("inbox", BuiltinExchangeType.DIRECT);   //변화하는 부분, Exchange name, Type
 
         String message = inboxForm.getMessage();
-
         String bindingKey = "broadcast";
-
-        rabbitMQHelper.basicPublish(message, bindingKey);                //변화하는부분, binding key (receiver)
+        rabbitMQHelper.basicPublish(message, bindingKey);                 //변화하는부분, binding key (receiver)
 
         rabbitMQHelper.closeConnection();
 
