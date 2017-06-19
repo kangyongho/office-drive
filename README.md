@@ -290,7 +290,7 @@ spring android 프로젝트를 이용하면 안드로이드에서도 RestTemplat
     }
 
 ## 정리
-지금까지 하드코딩된 property 정보를 사용하지 않았다. Spring Config Server를 통해 가져온 환경변수를 사용하여 profiles 별로 DataSource, Authentication 등의 Spring 빈을 자동등록하고 사용했다.  
+지금까지 하드코딩된 property 정보를 사용하지 않았다. Spring Config Server에서 가져온 환경변수를 사용하여 profiles 별로 DataSource, Authentication 등의 Spring 빈을 자동등록하고 사용했다.  
 Web Application에 Spring Cloud Bus를 추가하면 서버 재시작 없이 properties를 새로 적용하여 서비스할 수도 있다.
 
 [0]: https://github.com/kangyongho/office-drive/blob/master/office-drive-rest-server/src/main/java/net/ddns/office/drive/config/WebSecurityConfig.java
