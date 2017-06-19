@@ -70,10 +70,10 @@ Rest 서버에서 사용할 환경변수는 config server에 요청하여 컨테
 자세한 내용은 [`운영환경별 환경변수 설정 연구`][1] 를 참고하자.
 
 #### 인증 우선순위
-현재 Rest 서버는 웹 애플리케이션과 안드로이드 앱의 요청을 모두 처리하고 있다.  
+현재 Rest 서버는 웹 애플리케이션과 안드로이드 앱 요청을 모두 처리한다.  
 spring security는 CSRF 공격에 대비해서 csrf token을 이용하고 있다.  
-문제는 상태를 저장하지 않는 stateless한 모바일 앱에서 csrf를 적용하면 복잡도가 증가한다.  
-그래서 모바일 앱의 요청 url을 분리하여 csrf 적용 피할 수 있게 설정할 수 있다.  
+상태를 저장하지 않는 stateless한 모바일 앱에서 csrf를 적용하면 개발 복잡도가 증가하는 문제가 있다.  
+그래서 모바일 요청 url을 분리하여 csrf 적용을 피할 수 있게 설정할 수 있다.  
 
 #### @Order [link][0]
 `@Order` 어노테이션을 적용하면 `/android`로 시작되는 요청부터 분리할 수 있다.
@@ -114,8 +114,6 @@ spring security는 CSRF 공격에 대비해서 csrf token을 이용하고 있다
     @PostMapping(value = "/android/rabbitmq/send")
     public void sendMessageWithRabbitMQ(@RequestBody Inbox inbox) throws IOException, TimeoutException {
 
-        inbox.setDate(LocalDateTime.now());    //날짜 변환의 문제로 서버시간으로 저장.
-
         //RabbitMQ AMQP로 안드로이드에게 PUSH 메시지 전송
         RabbitMQHelper rabbitMQHelper = new RabbitMQHelper(
                 propertyConfig.getRabbitmq().get("host"),
@@ -123,18 +121,18 @@ spring security는 CSRF 공격에 대비해서 csrf token을 이용하고 있다
                 propertyConfig.getRabbitmq().get("password"),
                 "pushService");  //helper object 생성
 
-        rabbitMQHelper.getChannel("inbox", BuiltinExchangeType.DIRECT);   //변화하는 부분, Exchange name, Type
+        rabbitMQHelper.getChannel("inbox", BuiltinExchangeType.DIRECT);
 
         String message = inbox.getMessage();
         String bindingKey = "broadcast";
-        rabbitMQHelper.basicPublish(message, bindingKey);                 //변화하는부분, binding key (receiver)
+        rabbitMQHelper.basicPublish(message, bindingKey);
 
         rabbitMQHelper.closeConnection();
     }
 
 #### RabbitMQHelper [link][4]
 RabbitMQ는 메시지 브로커다. 예전 `Pure Talk` Json Messenger Android 프로젝트에서 `GCM`으로 Push Service를 제공한것과 달리 RabbitMQ로 Push Service를 구현할 수 있다.  
-아래 메서드를 통해 RabbitMQ 사용했다. 아직 살펴보진 않았지만 Spring AMQP 프로젝트가 개발에 도움이 될 수 있을 것으로 생각된다.  
+아래 메서드를 통해 RabbitMQ를 사용했다. 아직 살펴보진 않았지만 Spring AMQP 프로젝트가 개발에 도움이 될 수 있을 것으로 생각된다.  
 
     public class RabbitMQHelper {
       ...
@@ -173,6 +171,14 @@ spring은 RestTemplate로 편리하게 api를 호출할 수 있다. 그리고 Re
     @Autowired
     public AuthRestTemplate(RestTemplateBuilder builder, PropertyConfig propertyConfig) {
         this.restTemplate = builder.basicAuthorization(propertyConfig.getRest().get("username"), propertyConfig.getRest().get("password")).build();
+    }
+
+    public Map getDashboard(String username) {
+        return this.restTemplate.getForObject("http://localhost:8010/dashboard/{username}", Map.class, username);
+    }
+
+    public Map getDashboard(String username, Integer setpage) {
+        return this.restTemplate.getForObject("http://localhost:8010/dashboard/{username}/{setpage}", Map.class, username, setpage);
     }
 
 #### 페이징 API 호출 [link][6]
@@ -270,7 +276,7 @@ spring android 프로젝트를 이용하면 안드로이드에서도 RestTemplat
         } ...
     }
 
-#### 정리
+## 정리
 지금까지 프로젝트에서 하드코딩된 property 정보를 사용하지 않았다. Spring Config Server를 통해 가져온 환경변수를 사용하여 profiles 별로 DataSource, Authentication 등의 Spring 빈을 자동등록하고 사용했다.  
 Web Application에 Spring Cloud Bus를 추가하면 서버 재시작 없이 properties를 새로 적용하여 서비스할 수도 있다.
 
