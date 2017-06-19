@@ -4,8 +4,8 @@ Office Drive 프로젝트는 Spring Security로 Spring Applcation에 인증을 �
 Rest API Server, Web, Android Applcation 세 가지 프로젝트로 구성되어 있습니다.  
 
 ## Spring Security
-Spring Cloud Config를 이용하면 환경변수를 중앙서버에서 집중제어할 수 있지만 보안에 노출되어 있다.  
-Spring Security로 인증을 적용하고 Git 접속방식도 SSH 방식으로 변경해보았다.  
+`Spring Cloud Config`를 이용하면 환경변수를 중앙서버에서 집중제어할 수 있지만 보안에 노출되어 있다.  
+`Spring Security`로 인증을 적용하고 Git 접속방식도 SSH 방식으로 변경해보았다.  
 
 #### Bitbucket Git Repository
 config server가 바라보는 Git을 GitHub에서 Bitbucket으로 변경하면 private 계정을 사용할 수 있다.  
