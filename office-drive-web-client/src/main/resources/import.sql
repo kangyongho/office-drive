@@ -12,7 +12,7 @@ insert into authorities(authority, email, username, user_id) values('ROLE_USER',
 insert into authorities(authority, email, username, user_id) values('ROLE_GUEST', 'angela@gmail.com', 'angela', 4);
 insert into authorities(authority, email, username, user_id) values('ROLE_GUEST', 'soy@gmail.com', 'soy', 5);
 insert into authorities(authority, email, username, user_id) values('ROLE_GUEST', 'tom@gmail.com', 'tom', 6);
-insert into authorities(authority, email, username, user_id) values('ROLE_USER', 'restuser@gmail.com', 'tom', 6);
+insert into authorities(authority, email, username, user_id) values('ROLE_USER', 'restuser@gmail.com', 'restuser', 7);
 
 insert into inbox(date, message, receiver, sender, title) values('2017-06-12 15:26:18', 'Did you have lunch?', 'daniel', 'mark', 'Hello Daniel');
 insert into inbox(date, message, receiver, sender, title) values('2017-06-13 15:26:18', 'Love means never having to say you''re sorry.', 'daniel', 'mark', 'Love Story, 1970');
