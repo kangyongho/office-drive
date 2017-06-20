@@ -1,23 +1,21 @@
 # office-drive (Spring Security)
-Office Drive 프로젝트는 Spring Security로 Spring Applcation에 인증을 제공합니다.  
-이전에 운영환경변수의 중앙집중제어 프로젝트에 인증을 추가했습니다.  
-Rest API Server, Web, Android Applcation 세 가지 프로젝트로 구성되어 있습니다.  
+Office Drive 프로젝트는 Spring Security로 Spring Application 인증을 제공합니다.  
+[`운영환경별 환경변수 설정 연구`][1] 프로젝트에 인증을 추가했습니다.  
+Rest API Server, Web, Android Application 세 가지 프로젝트로 구성되어 있습니다.  
 
 ## Spring Security
 `Spring Cloud Config`를 이용하면 환경변수를 중앙서버에서 집중제어할 수 있지만 보안에 노출되어 있다.  
 `Spring Security`로 인증을 적용하고 Git 접속방식도 SSH 방식으로 변경해보았다.  
 
-#### Bitbucket Git Repository
+#### Bitbucket Private Git Repository
 config server가 바라보는 Git을 GitHub에서 Bitbucket으로 변경하면 private 계정을 사용할 수 있다.  
-bitbucket에 data를 요청하려면 인증을 거쳐야 한다.  
-basic auth로 id, password도 가능하지만 ssh 방식을 추천한다.  
-전제조건으로 config server 운영 서버에 ssh 설정이 되어 있어야 한다.  
+Bitbucket으로 config data를 요청하려면 인증을 거쳐야 한다. basic auth로 id, password도 가능하지만 ssh 방식을 추천한다. 전제조건으로 config server 운영 서버에 ssh 설정이 되어 있어야 한다.  
 `bootstarp.yml`에 s`pring.cloud.config.server.git.uri`를 `git@bitbucket.org:account/repository`로 교체하면 ssh 방식으로 git에 접속한다.
 
 #### WebSecurityConfigurerAdapter [link][0]
 spring security 출발은 `WebSecurityConfigurerAdapter` interface의 구현으로 시작한다.  
 url에 따른 접근제한을 설정할 수 있으며 우선순위가 높은 것부터 설정하면 된다.  
-`spring filter chain` 각 설정에 맞는 Filter가 연결되어 인증과 접근제한을 처리한다.  
+`spring filter chain` 설정에 따른 Filter가 연결되어 인증과 접근제한을 처리한다.  
 
     public class WebConfiguration extends WebSecurityConfigurerAdapter {
         @Override
@@ -39,8 +37,8 @@ httpBasic, Form Login, Jdbc Login, OAuth2, LDAP 등의 인증방식을 지원한
 
 #### Encryption [link][0]
 패스워드는 반드시 암호화해서 DB로 관리해야한다.  
-spring security는 BCryptPasswordEncoder로 `BCrypt` 방식의 암호화를 지원한다.  
-BCryptPasswordEncoder를 빈으로 등록해두면 패스워드 입력시 암호화를 적용한다.  
+spring security는 `BCryptPasswordEncoder`로 `BCrypt` 방식의 암호화를 지원한다.  
+`BCryptPasswordEncoder`를 빈으로 등록해두면 패스워드 입력시 암호화를 적용한다.  
 만약 DB에 암호화되지 않는 형식의 패스워드가 입력되어 있으면 인증 에러가 발생한다.  
 
     @Bean
@@ -49,7 +47,7 @@ BCryptPasswordEncoder를 빈으로 등록해두면 패스워드 입력시 암호
     }
 
 #### Filter Chain 커스터마이징 [link][0]
-spring security의 가장 중요한 것은 `filter chain`이다.  
+spring security의 가장 중요한 것은 `Filter Chain`이다.  
 인증 흐름은 `AuthenticationFilter - AuthenticationManager - AuthenticationProvider - UserDetailsService` 순서로 진행된다. 여기서 커스터마이징한 UserDetailsService와 BCryptPasswordEncoder빈을 `AuthenticationProvider`에 주입해주면 JPA User Entity와 Encryption 패스워드를 적용할 수 있게 된다.
 
     @Bean
@@ -61,19 +59,13 @@ spring security의 가장 중요한 것은 `filter chain`이다.
     }
 
 ## Rest API Server
-Rest API는 json 타입의 데이터 요청에 자주 사용된다.  
-여기서는 DB의 inbox 테이블 페이지 조회와 RabbitMQ 메시지 전송 End Point를 제공한다.  
+Rest API는 json 타입의 데이터 요청에 자주 사용된다. 여기서는 DB의 inbox 테이블 페이지 조회와 RabbitMQ 메시지 전송 End Point를 제공한다.  
 
 #### Config Data
-Rest 서버에서 사용할 환경변수는 config server에 요청하여 컨테이너 초기화에 사용한다.  
-위에서 처럼 bootstarp.yml에 uri에 config server 도메인을 입력해주면 된다.  
-자세한 내용은 [`운영환경별 환경변수 설정 연구`][1] 를 참고하자.
+Rest 서버에서 사용할 환경변수는 config server에 요청하여 컨테이너 초기화에 사용한다. 위에서 처럼 bootstarp.yml에 uri에 config server 도메인을 입력해주면 된다. 자세한 내용은 [`운영환경별 환경변수 설정 연구`][1] 를 참고하자.
 
 #### 인증 우선순위
-현재 Rest 서버는 웹 애플리케이션과 안드로이드 앱 요청을 모두 처리한다.  
-spring security는 `CSRF` 공격에 대비해서 `csrf token`을 이용하고 있다.  
-상태를 저장하지 않는 stateless한 모바일 앱에서 csrf를 적용하면 개발 복잡도가 증가하는 문제가 있다.  
-그래서 모바일 요청 url을 분리하여 csrf 적용을 피할 수 있게 설정할 수 있다.  
+현재 Rest 서버는 웹 애플리케이션과 안드로이드 앱 요청을 모두 처리한다. spring security는 `CSRF` 공격에 대비해서 `csrf token`을 이용하고 있다. 상태를 저장하지 않는 stateless한 모바일 앱에서 csrf를 적용하면 개발 복잡도가 증가하는 문제가 있다. 그래서 모바일 요청 url을 분리하여 csrf 적용을 피할 수 있게 설정할 수 있다.  
 
 #### @Order [link][0]
 `@Order` 어노테이션을 적용하면 `/android`로 시작되는 요청부터 분리할 수 있다.
@@ -131,8 +123,8 @@ spring security는 `CSRF` 공격에 대비해서 `csrf token`을 이용하고 �
     }
 
 #### RabbitMQHelper [link][4]
-RabbitMQ는 메시지 브로커다. 예전 `Pure Talk` Json Messenger Android 프로젝트에서 `GCM`으로 Push Service를 제공한것과 달리 RabbitMQ로 Push Service를 구현할 수 있다.  
-아래 메서드를 통해 RabbitMQ를 사용했다. 아직 살펴보진 않았지만 `Spring AMQP` 프로젝트가 개발에 도움이 될 수 있을 것으로 생각된다.  
+`RabbitMQ`는 메시지 브로커다. 예전 `Pure Talk` Json Messenger Android 프로젝트에서 `GCM`으로 Push Service를 제공한것과 달리 `RabbitMQ`로 Push Service를 구현할 수 있다.  
+아래 메서드를 통해 `RabbitMQ`를 사용했다. 아직 살펴보진 않았지만 `Spring AMQP` 프로젝트가 개발에 도움이 될 수 있을 것으로 생각된다.  
 
     public class RabbitMQHelper {
       ...
