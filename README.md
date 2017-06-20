@@ -9,8 +9,9 @@ Rest API Server, Web, Android Application 세 가지 프로젝트로 구성되�
 
 #### Bitbucket Private Git Repository
 config server가 바라보는 Git을 GitHub에서 Bitbucket으로 변경하면 private 계정을 사용할 수 있다.  
-Bitbucket으로 config data를 요청하려면 인증을 거쳐야 한다. basic auth로 id, password도 가능하지만 ssh 방식을 추천한다. 전제조건으로 config server 운영 서버에 ssh 설정이 되어 있어야 한다.  
-`bootstarp.yml`에 s`pring.cloud.config.server.git.uri`를 `git@bitbucket.org:account/repository`로 교체하면 ssh 방식으로 git에 접속한다.
+Bitbucket으로 config data를 요청하려면 인증을 거쳐야 한다. basic auth로 id, password도 가능하지만 ssh 방식을 추천한다.  
+전제조건으로 config server 운영 서버에 ssh 설정이 되어 있어야 한다.  
+`bootstarp.yml`에 `spring.cloud.config.server.git.uri`를 `git@bitbucket.org:account/repository`로 교체하면 ssh 방식으로 git에 접속한다.
 
 #### WebSecurityConfigurerAdapter [link][0]
 spring security 출발은 `WebSecurityConfigurerAdapter` interface의 구현으로 시작한다.  
